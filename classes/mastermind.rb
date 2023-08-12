@@ -1,5 +1,5 @@
 require_relative 'player'
-
+require_relative 'computer_player'
 class Mastermind
 
   COLORS = %w(red orange yellow green blue purple)
@@ -10,6 +10,7 @@ class Mastermind
     puts "Enter your name:"
     name = gets.chomp
     @player = Player.new(name)
+    @computer = ComputerPlayer.new
     @turns = 12
     @code = []
     @guesses = []
@@ -19,9 +20,9 @@ class Mastermind
     puts "Enter 1 to be the codebreaker, or 2 to be the codemaker:"
     gamemode = gets.chomp
     if gamemode == "1"
-      @gamemode = "codebreaker"
+      
     elsif gamemode == "2"
-      @gamemode = "codemaker"
+      
     else
       puts "Invalid input. Please try again."
       select_gamemode
@@ -36,7 +37,6 @@ class Mastermind
     end 
     @code.map! { |color| COLORS_HASH[color]}
     puts @code.join
-
   end
 
   def print_colors
@@ -46,8 +46,25 @@ class Mastermind
     end
   end
 
-  def validate_guess
+  def return_feedback(guess)
+    guess.each_with_index do |color, index|
+      if @code.include?(color)
+        if @code[index] == color
+          puts "#{color} - correct color and position"
+        else
+          puts "#{color} - correct color, wrong position"
+        end
+      else
+        puts "#{color} - is not in the code"
+      end
+    end
+  end
 
+  def codebreaker_mode 
+
+  end
+
+  def codemaker_mode
   end
 end
 
