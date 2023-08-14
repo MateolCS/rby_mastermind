@@ -15,4 +15,18 @@ class ComputerPlayer < Player
         puts code.join
         code
     end
+
+    def return_feedback(guess)
+        guess.each_with_index do |color, index|
+          if @code.include?(color)
+            if @code[index] == color
+              puts "#{color} - correct color and position"
+            else
+              puts "#{color} - correct color, wrong position"
+            end
+          else
+            puts "#{color} - is not in the code"
+          end
+        end
+      end
 end

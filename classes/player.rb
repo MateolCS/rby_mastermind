@@ -15,4 +15,19 @@ class Player
       puts "Please enter 5 unique colors"
       generate_code
     end
+
+    def return_feedback(guess):
+      result = []
+      guess.each_with_index do |color, index|
+        if @code.include?(color)
+          if @code[index] == color
+            result[index] = "CP"
+          else
+            result[index] = "CC"
+          end
+        else
+          result[index] = "X"
+        end
+      end
+    end
 end
