@@ -7,9 +7,7 @@ class Mastermind
 
   attr_accessor :player, :guesses, :turns, :gamemode, :code
   def initialize
-    puts "Enter your name:"
-    name = gets.chomp
-    @player = Player.new(name)
+    @player = Player.new
     @computer = ComputerPlayer.new
     @turns = 12
     @code = []
@@ -20,9 +18,9 @@ class Mastermind
     puts "Enter 1 to be the codebreaker, or 2 to be the codemaker:"
     gamemode = gets.chomp
     if gamemode == "1"
-      
+      codebreaker_mode
     elsif gamemode == "2"
-      
+      codemaker_mode
     else
       puts "Invalid input. Please try again."
       select_gamemode
@@ -45,13 +43,38 @@ class Mastermind
       puts "#{number} = #{color}"
     end
   end
+
+  def get_guess
+    puts "Enter your guess:"
+    guess = gets.chomp.chars.map(&:to_i)
+    if guess.length != 5
+      puts "Invalid input. Please try again."
+      get_guess
+    else
+      @guesses << guess
+    end
+    guess
+  end
   
   def codebreaker_mode 
-
+    @code = @computer.generate_code(COLORS, COLORS_HASH)
+    puts "The computer has generated a code. #{@code}"
+    @turns.times do |turn|
+      puts "Turn #{turn + 1}"
+      guess = get_guess
+      puts "guess = #{guess} code = #{@code}"
+      if guess == @code.join
+        puts "You win!"
+        break
+      else
+        @computer.return_feedback(guess, @code)
+      end
+    end
+    puts "You lose!" if @guesses.length == @turns
   end
 
   def codemaker_mode
   end
 end
 
-Mastermind.new.generate_code
+Mastermind.new.select_gamemode

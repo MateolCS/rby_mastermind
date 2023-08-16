@@ -1,7 +1,8 @@
 class Player
   attr_accessor :name
-  def initialize(name)
-    @name = name
+  def initialize()
+    puts "Enter your name:"
+    @name = gets.chomp
   end
 
   def generate_code
@@ -15,8 +16,9 @@ class Player
       puts "Please enter 5 unique colors"
       generate_code
     end
+  end
 
-    def return_feedback(guess):
+    def return_feedback(guess)
       result = []
       guess.each_with_index do |color, index|
         if @code.include?(color)

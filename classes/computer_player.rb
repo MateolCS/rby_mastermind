@@ -1,25 +1,25 @@
-require("./player.rb")
+require_relative 'player'
 
 class ComputerPlayer < Player
     def initialize
-        super("Computer")
+        @name = "Computer"
     end
 
-    def generate_code(COLORS, COLORS_HASH)
+    def generate_code(colors, colors_hash)
         code = []
         until code.length == 5
-          code << COLORS.sample
+          code << colors.sample
           code.uniq!
         end 
-        code.map! { |color| COLORS_HASH[color]}
+        code.map! { |color| colors_hash[color]}
         puts code.join
         code
     end
 
-    def return_feedback(guess)
+    def return_feedback(guess, code)
         guess.each_with_index do |color, index|
-          if @code.include?(color)
-            if @code[index] == color
+          if code.include?(color)
+            if code[index] == color
               puts "#{color} - correct color and position"
             else
               puts "#{color} - correct color, wrong position"
