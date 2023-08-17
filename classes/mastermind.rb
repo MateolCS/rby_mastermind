@@ -12,6 +12,7 @@ class Mastermind
     @turns = 12
     @code = []
     @guesses = []
+    select_gamemode
   end
 
   def select_gamemode
@@ -27,16 +28,6 @@ class Mastermind
     end
   end
 
-  def generate_code
-    @code = []
-    until @code.length == 5
-      @code << COLORS.sample
-      @code.uniq!
-    end 
-    @code.map! { |color| COLORS_HASH[color]}
-    puts @code.join
-  end
-
   def print_colors
     puts "Colors to choose from:"
     COLORS_HASH.each do |color, number|
@@ -47,7 +38,7 @@ class Mastermind
   def get_guess
     puts "Enter your guess:"
     guess = gets.chomp.chars.map(&:to_i)
-    if guess.length != 5
+    if guess.length != 4
       puts "Invalid input. Please try again."
       get_guess
     else
@@ -58,11 +49,10 @@ class Mastermind
   
   def codebreaker_mode 
     @code = @computer.generate_code(COLORS, COLORS_HASH)
-    puts "The computer has generated a code. #{@code}"
+    print_colors
     @turns.times do |turn|
       puts "Turn #{turn + 1}"
       guess = get_guess
-      puts "guess = #{guess} code = #{@code}"
       if guess == @code.join
         puts "You win!"
         break
@@ -74,6 +64,19 @@ class Mastermind
   end
 
   def codemaker_mode
+    print_colors
+    @code = @player.generate_code
+    @turns.times do |turn|
+      puts "Turn #{turn + 1}"
+      guess = @computer.crack_code
+      if guess == @code
+        puts "You lose!"
+        break
+      else
+        @computer.remove_impossible_guesses(guess, @player.return_feedback(guess, code))
+      end
+    end
+    puts "You win!" if @guesses.length == @turns
   end
 end
 

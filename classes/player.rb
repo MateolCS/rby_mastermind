@@ -7,22 +7,22 @@ class Player
 
   def generate_code
     puts "Enter your code:"
-    code = gets.chomp
-    code.split
-
-    if code.uniq?.length == 5
+    code = gets.chomp.chars.map(&:to_i)
+    puts "code is #{code}"
+    if code.uniq.length == 4
       code
     else
-      puts "Please enter 5 unique colors"
+      puts code
+      puts "Please enter 4 unique colors"
       generate_code
     end
   end
 
-    def return_feedback(guess)
+    def return_feedback(code, guess)
       result = []
       guess.each_with_index do |color, index|
-        if @code.include?(color)
-          if @code[index] == color
+        if code.include?(color)
+          if code[index] == color
             result[index] = "CP"
           else
             result[index] = "CC"
@@ -31,5 +31,6 @@ class Player
           result[index] = "X"
         end
       end
+      result
     end
 end
