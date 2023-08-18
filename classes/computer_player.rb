@@ -1,11 +1,10 @@
 require_relative 'player'
 
 class ComputerPlayer < Player
-    attr_accessor :name, :guesses, :guess_permutations
+    attr_accessor :name, :guess_permutations
 
     def initialize
         @name = "Computer"
-        @guesses = []
         @guess_permutations = [1,2,3,4,5,6].repeated_permutation(4).to_a
     end
 

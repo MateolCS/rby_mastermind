@@ -1,8 +1,6 @@
 class Player
   attr_accessor :name
   def initialize()
-    puts "Enter your name:"
-    @name = gets.chomp
   end
 
   def generate_code
@@ -10,9 +8,13 @@ class Player
     code = gets.chomp.chars.map(&:to_i)
     puts "code is #{code}"
     if code.uniq.length == 4
-      code
+      if code.any? { |color| color > 6 || color < 1 }
+        puts "Please enter a number between 1 and 6"
+        generate_code
+      else
+        code
+      end
     else
-      puts code
       puts "Please enter 4 unique colors"
       generate_code
     end

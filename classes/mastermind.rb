@@ -12,10 +12,12 @@ class Mastermind
     @turns = 12
     @code = []
     @guesses = []
-    select_gamemode
   end
 
   def select_gamemode
+    puts "Welcome to Mastermind!"
+    puts "Enter your name:"
+    @player.name = gets.chomp
     puts "Enter 1 to be the codebreaker, or 2 to be the codemaker:"
     gamemode = gets.chomp
     if gamemode == "1"
@@ -69,6 +71,7 @@ class Mastermind
     @turns.times do |turn|
       puts "Turn #{turn + 1}"
       guess = @computer.crack_code
+      puts "Computer guesses #{guess}, and Your code is #{@code}"
       if guess == @code
         puts "You lose!"
         break
